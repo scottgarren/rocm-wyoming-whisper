@@ -7,7 +7,7 @@ A docker image and a few lines of python to use OpenAI whisper with Rhasspy and/
 Build docker image:
 
 ```shell
-docker build -t gpu-wyoming-whisper .
+docker build -t rocm-wyoming-whisper .
 ```
 
 ## Run with docker-compose
