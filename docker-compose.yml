@@ -1,18 +1,17 @@
 services:
   whisper:
+    image: rocm-wyoming-whisper
     container_name: whisper
     restart: unless-stopped
-    build:
-      context: .
     group_add:
       - video
     volumes:
-      - ./data:/data
+      - whisper-data:/data
     command:
       - --download-dir
       - /data
-      - --language
-      - en
+      - --model
+      - medium
       - --device
       - cuda
     ports:
@@ -20,3 +19,6 @@ services:
     devices:
       - "/dev/dri"
       - "/dev/kfd"
+
+volumes:
+  whisper-data:
