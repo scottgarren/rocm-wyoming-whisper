@@ -1,9 +1,17 @@
-FROM rocm/pytorch:rocm5.7_ubuntu22.04_py3.10_pytorch_2.0.1
+# https://rocm.docs.amd.com/projects/install-on-linux/en/develop/install/3rd-party/pytorch-install.html
 
-RUN pip install -U pip && pip install wyoming==1.2.0 openai-whisper==20231117 tokenizers==0.13.*
+FROM rocm/dev-ubuntu-24.04
+
+RUN apt update && apt install -y libjpeg-dev python3-dev python3-pip 
+
+RUN pip3 install --break-system-packages wheel setuptools
+RUN pip3 install --break-system-packages --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/rocm6.2/
+
+RUN pip3 install --break-system-packages wyoming openai-whisper tokenizers
 
 COPY src /src
 
 WORKDIR /src
 
 ENTRYPOINT ["/src/run.sh"]
+
