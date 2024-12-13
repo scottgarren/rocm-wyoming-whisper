@@ -22,6 +22,11 @@ async def main() -> None:
         help="Name of whisper model to use (default medium)",
     )
     parser.add_argument(
+        "--language",
+        default="en",
+        help="Language to use for inference (default: en)",
+    )
+    parser.add_argument(
         "--uri", help="unix:// or tcp://", default="tcp://0.0.0.0:10300"
     )
     parser.add_argument(
@@ -35,15 +40,16 @@ async def main() -> None:
         help="Device to use for inference (default: cuda)",
     )
     parser.add_argument(
-        "--language",
-        default="en",
-        help="Default language to set for transcription (default: en)",
-    )
-    parser.add_argument(
         "--beam-size",
         type=int,
         default=5,
     )
+    parser.add_argument(
+        "--version",
+        default="1.0",
+        help="Version of the whisper model to use (default: 1.0)",
+    )
+
 
     parser.add_argument("--debug", action="store_true", help="Log DEBUG messages")
     args = parser.parse_args()
@@ -61,6 +67,7 @@ async def main() -> None:
             AsrProgram(
                 name="whisper",
                 description="Whisper",
+                version=args.version,
                 attribution=Attribution(
                     name="OpenAI",
                     url="https://github.com/openai/whisper",
@@ -69,6 +76,7 @@ async def main() -> None:
                 models=[
                     AsrModel(
                         name=args.model,
+                        version=args.version,
                         description=args.model,
                         attribution=Attribution(
                             name="whisper",
