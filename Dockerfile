@@ -2,12 +2,14 @@
 
 FROM rocm/dev-ubuntu-24.04
 
-RUN apt update && apt install -y libjpeg-dev python3-dev python3-pip 
+RUN apt update && apt install -y --no-install-recommends libjpeg-dev python3-dev python3-pip && \
+	apt clean && \
+	rm -r /var/lib/apt/lists/*
 
-RUN pip3 install --break-system-packages wheel setuptools
-RUN pip3 install --break-system-packages --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/rocm6.2/
+RUN pip3 install --break-system-packages --no-cache-dir wheel setuptools
+RUN pip3 install --break-system-packages --no-cache-dir --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/rocm6.2/
 
-RUN pip3 install --break-system-packages wyoming openai-whisper tokenizers
+RUN pip3 install --break-system-packages --no-cache-dir wyoming openai-whisper tokenizers
 
 COPY src /src
 
